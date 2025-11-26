@@ -81,13 +81,51 @@
         padding: 10px;
         margin: 4px 2px;
         font-size: 14px;
-    }
+    }}
+  /* === COLLAPSIBLE SIDEBAR === */
+.sidebar {
+    position: relative;
+    transition: all 0.3s ease;
 }
+
+#collapseBtn {
+    position: absolute;
+    right: -18px;
+    top: 20px;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.sidebar-collapsed {
+    margin-left: -360px;   /* geser sidebar keluar */
+}
+
+.sidebar-hidden #collapseBtn {
+    right: -18px;
+}
+
+/* ketika collapsed, ubah tombol ikut bergeser */
+#collapseBtn.collapsed {
+    right: -18px;
+}
+
   </style>
 </head>
 <body>
   <div id="app">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
+  <div id="collapseBtn" onclick="toggleSidebar()">&#10094;</div>
       <div><span class="badge">CORS Jogja</span><h1>Peta Sebaran CORS Jogja & Sekitarnya</h1>
         <div class="sub">Cari nama CORS, klik info, lalu tekan <b>Rute</b>. Panel rute menampilkan estimasi & pilihan rute.</div>
       </div>
@@ -406,8 +444,27 @@ function showRoute(index){
   // fit to show all
   const bounds = L.latLngBounds(corsStations.map(c=>[c.lat,c.lon]));
   if(bounds.isValid()) map.fitBounds(bounds.pad(0.2));
+    function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const btn = document.getElementById("collapseBtn");
+
+    sidebar.classList.toggle("sidebar-collapsed");
+
+    // ubah arah tombol
+    if (sidebar.classList.contains("sidebar-collapsed")) {
+        btn.innerHTML = "&#10095;"; // >
+    } else {
+        btn.innerHTML = "&#10094;"; // <
+    }
+
+    // refresh map size
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 350);
+}
   </script>
 </body>
 </html>
+
 
 
