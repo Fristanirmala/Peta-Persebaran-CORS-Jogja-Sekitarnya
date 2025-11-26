@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>Peta CORS Jogja • Leaflet + OSRM (Tugu CORS)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -44,6 +45,44 @@
     .user-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .user-row img{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.12)}
     @media (max-width:900px){#app{grid-template-columns:1fr}.route-panel{right:12px;left:12px;width:auto}}
+    /* --- RESPONSIVE FOR HP --- */
+@media (max-width: 600px) {
+
+    /* Search box jadi full-width atas */
+    #searchBox {
+        width: 90%;
+        left: 5%;
+        top: 10px;
+        padding: 10px;
+    }
+
+    /* Sidebar turun ke bawah search box */
+    #sidebar {
+        width: 90%;
+        right: 5%;
+        top: 150px;
+        max-height: 40%;
+        padding: 10px;
+    }
+
+    /* Text dalam sidebar dibesarkan */
+    .cors-item {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Map diberi margin agar tidak tertutup elemen */
+    #map {
+        margin-top: 220px;
+    }
+
+    /* Tombol routing diperbesar */
+    #routingButtons button {
+        padding: 10px;
+        margin: 4px 2px;
+        font-size: 14px;
+    }
+}
   </style>
 </head>
 <body>
@@ -370,4 +409,5 @@ function showRoute(index){
   </script>
 </body>
 </html>
+
 
