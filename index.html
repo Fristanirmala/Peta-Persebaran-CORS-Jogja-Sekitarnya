@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Peta CORS Jogja • Leaflet + OSRM (Tugu CORS)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -45,87 +44,11 @@
     .user-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .user-row img{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.12)}
     @media (max-width:900px){#app{grid-template-columns:1fr}.route-panel{right:12px;left:12px;width:auto}}
-    /* --- RESPONSIVE FOR HP --- */
-@media (max-width: 600px) {
-
-    /* Search box jadi full-width atas */
-    #searchBox {
-        width: 90%;
-        left: 5%;
-        top: 10px;
-        padding: 10px;
-    }
-
-    /* Sidebar turun ke bawah search box */
-    #sidebar {
-        width: 90%;
-        right: 5%;
-        top: 150px;
-        max-height: 40%;
-        padding: 10px;
-    }
-
-    /* Text dalam sidebar dibesarkan */
-    .cors-item {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    /* Map diberi margin agar tidak tertutup elemen */
-    #map {
-        margin-top: 220px;
-    }
-
-    /* Tombol routing diperbesar */
-    #routingButtons button {
-        padding: 10px;
-        margin: 4px 2px;
-        font-size: 14px;
-    }}
-  /* === COLLAPSIBLE SIDEBAR === */
-.sidebar {
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-#collapseBtn {
-    position: absolute;
-    right: -18px;
-    top: 20px;
-    width: 22px;
-    height: 22px;
-    background: #fff;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    cursor: pointer;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.sidebar-collapsed {
-    margin-left: -360px;   /* geser sidebar keluar */
-}
-
-.sidebar-hidden #collapseBtn {
-    right: -18px;
-}
-
-/* ketika collapsed, ubah tombol ikut bergeser */
-#collapseBtn.collapsed {
-    right: -18px;
-}
-
   </style>
 </head>
 <body>
   <div id="app">
-    <aside class="sidebar" id="sidebar">
-  <div id="collapseBtn" onclick="toggleSidebar()">&#10094;</div>
+    <aside class="sidebar">
       <div><span class="badge">CORS Jogja</span><h1>Peta Sebaran CORS Jogja & Sekitarnya</h1>
         <div class="sub">Cari nama CORS, klik info, lalu tekan <b>Rute</b>. Panel rute menampilkan estimasi & pilihan rute.</div>
       </div>
@@ -182,7 +105,8 @@
   const markersLayer = L.layerGroup().addTo(map);
   const routesLayer = L.layerGroup().addTo(map);
 
-  // ===== icon:tugu.png =====
+  // ===== icon: use your tugu.png in same folder =====
+  // Save your uploaded PNG as "tugu.png" next to index.html
 const tuguIcon = L.icon({
     iconUrl: 'image/cors.png',
     iconSize: [40, 80],
@@ -206,6 +130,7 @@ const tuguIconBlue = L.icon({
     markerById[c.id]=m;
   });
 
+  // render list
   const corsListEl = document.getElementById('corsList');
   function renderList(){
     corsListEl.innerHTML='';
@@ -230,6 +155,7 @@ const tuguIconBlue = L.icon({
   }
   renderList();
 
+  // search autosuggest
   const searchInput = document.getElementById('search');
   const suggestBox = document.getElementById('suggestBox');
   function onSearchInput(){
@@ -285,6 +211,7 @@ const tuguIconBlue = L.icon({
 function translateMode(raw){
   // returns { profile, durationFactor }
   if(raw === 'motorcycle'){
+    // Faktor motor dibuat lebih realistis (10–15% lebih cepat)
     return { profile: 'driving', factor: 0.88 };
   }
   if(raw === 'driving') return { profile: 'driving', factor: 1.0 };
@@ -444,27 +371,6 @@ function showRoute(index){
   // fit to show all
   const bounds = L.latLngBounds(corsStations.map(c=>[c.lat,c.lon]));
   if(bounds.isValid()) map.fitBounds(bounds.pad(0.2));
-    function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    const btn = document.getElementById("collapseBtn");
-
-    sidebar.classList.toggle("sidebar-collapsed");
-
-    // ubah arah tombol
-    if (sidebar.classList.contains("sidebar-collapsed")) {
-        btn.innerHTML = "&#10095;"; // >
-    } else {
-        btn.innerHTML = "&#10094;"; // <
-    }
-
-    // refresh map size
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 350);
-}
   </script>
 </body>
 </html>
-
-
-
