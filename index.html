@@ -105,8 +105,7 @@
   const markersLayer = L.layerGroup().addTo(map);
   const routesLayer = L.layerGroup().addTo(map);
 
-  // ===== icon: use your tugu.png in same folder =====
-  // Save your uploaded PNG as "tugu.png" next to index.html
+  // ===== icon:tugu.png =====
 const tuguIcon = L.icon({
     iconUrl: 'image/cors.png',
     iconSize: [40, 80],
@@ -130,7 +129,6 @@ const tuguIconBlue = L.icon({
     markerById[c.id]=m;
   });
 
-  // render list
   const corsListEl = document.getElementById('corsList');
   function renderList(){
     corsListEl.innerHTML='';
@@ -155,7 +153,6 @@ const tuguIconBlue = L.icon({
   }
   renderList();
 
-  // search autosuggest
   const searchInput = document.getElementById('search');
   const suggestBox = document.getElementById('suggestBox');
   function onSearchInput(){
@@ -211,7 +208,6 @@ const tuguIconBlue = L.icon({
 function translateMode(raw){
   // returns { profile, durationFactor }
   if(raw === 'motorcycle'){
-    // Faktor motor dibuat lebih realistis (10–15% lebih cepat)
     return { profile: 'driving', factor: 0.88 };
   }
   if(raw === 'driving') return { profile: 'driving', factor: 1.0 };
@@ -374,3 +370,4 @@ function showRoute(index){
   </script>
 </body>
 </html>
+
